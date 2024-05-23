@@ -16,12 +16,6 @@ class WordSchema(BaseModel):
 class TabSchema(BaseModel):
     id: int
     name: str
-    
-    class Config:
-        orm_mode = True
-    
-    
-class TabServeWords(TabSchema):
     words: List[WordSchema]
     
     class Config:
@@ -32,3 +26,11 @@ class CreateWordRequest(BaseModel):
     chinese: str
     pinyin: str
     meaning: str
+    
+    
+class CreateTabRequest(BaseModel):
+    name: str
+    
+    
+class AddWordsToTabRequest(BaseModel):
+    words: List[int]

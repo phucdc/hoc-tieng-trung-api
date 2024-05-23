@@ -30,3 +30,16 @@ class Tab(Base):
     name = Column(String, unique=True, nullable=False)
     
     words = relationship('Word', secondary='associations', back_populates='tabs')
+    
+    def remove_associations(self, session):
+        """
+        Remove associations between this Tab and its associated Word instances.
+        """
+        associated_words = session.query(Word).join(associations).filter(
+            associations.c.tab_id == self.id
+        ).all()
+
+        for word in associated_words:
+            self.words.remove(word)
+
+        session.commit()
